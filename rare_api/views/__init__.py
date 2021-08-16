@@ -1,3 +1,3 @@
-from .reaction import ReactioView
+from .reaction import ReactionView
 from .category import CategoryView
 
