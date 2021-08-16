@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
 from django.conf.urls import include
-from rare_api.views import ReactionView, CategoryView
+from rare_api.views import ReactionView, CategoryView, login_user
 
 
 router = routers.DefaultRouter(trailing_slash=False)
@@ -27,6 +27,7 @@ router.register(r'categories', CategoryView, 'category')
 
 
 urlpatterns = [
+    path('login', login_user),
     path('admin/', admin.site.urls),
     path('', include(router.urls))
 ]
