@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
 from django.conf.urls import include
+from rare_api.views import login_user
 from rare_api.views.reaction import ReactionView
 from rare_api.views.category import CategoryView
 
@@ -28,6 +29,7 @@ router.register(r'categories', CategoryView, 'category')
 
 
 urlpatterns = [
+    path('login', login_user),
     path('admin/', admin.site.urls),
     path('', include(router.urls))
 ]

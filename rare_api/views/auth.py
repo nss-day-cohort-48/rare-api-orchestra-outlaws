@@ -18,10 +18,11 @@ def login_user(request):
     if authenticated_user is not None:
         # use ORM to get the token for this user
         token = Token.objects.get(user=authenticated_user)
-        # TODO: doublecheck this against the clientside code -- IIABDFI
         data = {
             'valid': True,
-            'token': token.key
+            'token': token.key,
+            # TODO: remove this -- it's there for compatibility with original client code
+            'id': token.key
         }
         return Response(data)
     else:
