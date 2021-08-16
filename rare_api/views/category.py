@@ -9,7 +9,7 @@ class CategoryView(ViewSet):
 
     def list(self, request):
         """Handles GET all fetch calls"""
-        categories = Category.objects.all()
+        categories = Category.objects.order_by('label')
         serializer = CategorySerializer(
             categories, many=True, context={'request': request}
         )
