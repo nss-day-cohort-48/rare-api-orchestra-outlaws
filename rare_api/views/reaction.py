@@ -7,7 +7,7 @@ from rest_framework import serializers
 from rest_framework import status
 from rare_api.models import Reaction
 
-class ReactioView(ViewSet):
+class ReactionView(ViewSet):
 
     def list(self, request):
         reactions = Reaction.objects.all()
