@@ -2,6 +2,6 @@
     "python.linting.enabled": true,
     "python.linting.pylintArgs": [
         "--load-plugins=pylint_django",
-        "--django-settings-module=<folder name>.settings",
+        "--django-settings-module=rare-api-orchestra-outlaws.settings",
     ],
 }
