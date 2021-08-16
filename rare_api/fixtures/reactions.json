@@ -1,0 +1,10 @@
+[
+    {
+        "model": "rare_api.reaction",
+        "pk": 1,
+        "fields": {
+            "label": "Like",
+            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Facebook_Like_button.svg/1024px-Facebook_Like_button.svg.png"
+        }
+    }
+]
