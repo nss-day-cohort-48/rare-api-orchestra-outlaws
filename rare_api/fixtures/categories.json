@@ -1,0 +1,23 @@
+[
+    {
+        "model": "rare_api.category",
+        "pk": 1,
+        "fields": {
+            "label": "News"
+        }
+    },
+    {
+        "model": "rare_api.category",
+        "pk": 2,
+        "fields": {
+            "label": "Python"
+        }
+    },
+    {
+        "model": "rare_api.category",
+        "pk": 3,
+        "fields": {
+            "label": "Javascript"
+        }
+    }
+]
