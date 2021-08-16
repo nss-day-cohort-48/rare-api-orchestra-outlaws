@@ -14,7 +14,7 @@ def login_user(request):
     username = request.data['username']
     password = request.data['password']
 
-    authenticated_user = authenticat(username=username, password=password)
+    authenticated_user = authenticate(username=username, password=password)
     if authenticated_user is not None:
         # use ORM to get the token for this user
         token = Token.objects.get(user=authenticated_user)
