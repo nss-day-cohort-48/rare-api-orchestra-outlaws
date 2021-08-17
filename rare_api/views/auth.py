@@ -28,3 +28,28 @@ def login_user(request):
     else:
         data = {'valid': False}
         return Response(data)
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def register_user(request):
+    new_user = User.objects.create_user(
+        username=request.data['username'],
+        email=request.data['email'],
+        password=request.data['password'],
+        first_name=request.date['first_name'],
+        last_name=request.data['last_name']
+    )
+
+    rare_user = RareUser.objects.create(
+            user=new_user,
+            bio=request.data['bio'],
+            profile_image_url=request.data['profileImageURL']
+
+    token=Token.objects.create(user=gamer.user)
+
+    data={
+        'token': token.key
+    }
+
+    return Response(data)
