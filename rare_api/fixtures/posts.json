@@ -1,0 +1,28 @@
+[
+    {
+        "model": "rare_api.category",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "category": 1,
+            "title": "Cassowary",
+            "publication_date": "2021-07-07",
+            "image_url": "https://www.guinnessworldrecords.com/Images/cassowary-side_tcm25-568936.jpg",
+            "content": "cool bird",
+            "approved": true
+        }
+    },
+    {
+        "model": "rare_api.category",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "category": 3,
+            "title": "My favorite Bass Pro Shop",
+            "publication_date": "2021-07-07",
+            "image_url": "https://cdn2.atlantamagazine.com/wp-content/uploads/sites/4/2021/03/Bass-Pro-Shops-at-the-Pyramid.jpg",
+            "content": "It's in a pyramid in Memphis",
+            "approved": true
+        }
+    }
+]
