@@ -12,7 +12,7 @@ class PostView(ViewSet):
     
     def create(self, request):
         post= Post()
-        post.user = RareUser.objects.get(user=request.auth.user)
+        post.rare_user = RareUser.objects.get(user=request.auth.user)
         post.category = Category.objects.get(pk=request.data["category"])
         post.title = request.data["title"]
         post.publication_date = request.data["publication_date"]
@@ -29,7 +29,7 @@ class PostView(ViewSet):
 
     def update(self, request, pk=None):
         post = Post.objects.get(pk=pk)
-        post.user = RareUser.objects.get(user=request.auth.user)
+        post.rare_user = RareUser.objects.get(user=request.auth.user)
         post.category = Category.objects.get(pk=request.data["category"])
         post.title = request.data["title"]
         post.publication_date = request.data["publication_date"]
@@ -62,9 +62,9 @@ class PostView(ViewSet):
     def list(self, request):
         
         #filtering posts by user
-        user = self.request.query_params.get('user', None)
-        if user is not None:
-            posts = Post.objects.filter(user__id=user)
+        rare_user = self.request.query_params.get('rare_user', None)
+        if rare_user is not None:
+            posts = Post.objects.filter(rare_user__id=rare_user)
 
         else:
             posts = Post.objects.all()
@@ -94,9 +94,9 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     
-    user = RareUserSerializer(many=False)
+    rare_user = RareUserSerializer(many=False)
     category = CategorySerializer(many=False)
 
     class Meta:
         model = Post
-        fields = ('id', 'user', 'category', 'title', 'publication_date', 'image_url', 'content', 'approved')
+        fields = ('id', 'rare_user', 'category', 'title', 'publication_date', 'image_url', 'content', 'approved')

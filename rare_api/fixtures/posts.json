@@ -3,7 +3,7 @@
         "model": "rare_api.post",
         "pk": 1,
         "fields": {
-            "user": 1,
+            "rare_user": 1,
             "category": 1,
             "title": "Cassowary",
             "publication_date": "2021-07-07",
@@ -16,7 +16,7 @@
         "model": "rare_api.post",
         "pk": 2,
         "fields": {
-            "user": 2,
+            "rare_user": 2,
             "category": 3,
             "title": "My favorite Bass Pro Shop",
             "publication_date": "2021-07-07",
