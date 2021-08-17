@@ -28,6 +28,10 @@ def login_user(request):
         return Response(data)
 
 
+default_profile_image = "https://picsum.photos/200"
+default_bio = "this user does not have a bio yet"
+
+
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def register_user(request):
@@ -38,6 +42,11 @@ def register_user(request):
         first_name=request.date['first_name'],
         last_name=request.data['last_name']
     )
+
+    # ignore key errors for optional fields
+    with suppress(KeyError):
+        bio = request.data['bio'] or default_bio
+        profile_image_url = request.data['profileImageURL'] or default_profile_image
 
     rare_user = RareUser.objects.create(
         user=new_user,
