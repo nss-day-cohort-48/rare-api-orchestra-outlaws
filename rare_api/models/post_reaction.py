@@ -8,7 +8,7 @@ class PostReaction(models.Model):
         post (ForeignKey): the post the reaction is for
         reaction (DateField): the reaction given to the post
     """
-    user = models.ForeignKey("RareUser", on_delete=models.CASCADE)
+    rare_user = models.ForeignKey("RareUser", on_delete=models.CASCADE)
     post = models.ForeignKey("Post", on_delete=models.CASCADE)
     reaction = models.ForeignKey("Reaction", on_delete=models.CASCADE)
 

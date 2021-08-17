@@ -11,7 +11,7 @@ class PostReactionView(ViewSet):
     
     def create(self, request):
         post_reaction = PostReaction()
-        post_reaction.user = RareUser.objects.get(user=request.auth.user)
+        post_reaction.rare_user = RareUser.objects.get(user=request.auth.user)
         post_reaction.post = Post.objects.get(pk=request.data["post"])
         post_reaction.reaction = Reaction.objects.get(pk=request.data["reaction"])
 
@@ -24,7 +24,7 @@ class PostReactionView(ViewSet):
 
     def update(self, request, pk=None):
         post_reaction = PostReaction.objects.get(pk=pk)
-        post_reaction.user = RareUser.objects.get(user=request.auth.user)
+        post_reaction.rare_user = RareUser.objects.get(user=request.auth.user)
         post_reaction.post = Post.objects.get(pk=request.data["post"])
         post_reaction.reaction = Reaction.objects.get(pk=request.data["reaction"])
         post_reaction.save()
@@ -51,7 +51,19 @@ class PostReactionView(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def list(self, request):
-        post_reactions = PostReaction.objects.all()
+        #filtering post_reactions by user
+        rare_user = self.request.query_params.get('rare_user', None)
+        if rare_user is not None:
+            post_reactions = PostReaction.objects.filter(rare_user__id=rare_user)
+        #filtering post_reactions by post
+        else:
+            post = self.request.query_params.get('post', None)
+            if post is not None:
+                post_reactions = PostReaction.objects.filter(post__id=post)
+
+            else:
+                post_reactions = PostReaction.objects.all()
+
         serializer = PostReactionSerializer(
             post_reactions, many=True, context={'request': request}
         )
@@ -61,5 +73,4 @@ class PostReactionView(ViewSet):
 class PostReactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostReaction
-        fields = ('id', 'user', 'post', 'reaction')
-        depth = 1
+        fields = ('id', 'rare_user', 'post', 'reaction')

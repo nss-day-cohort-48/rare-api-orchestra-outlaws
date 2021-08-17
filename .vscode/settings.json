@@ -8,8 +8,8 @@
         {
             "previewLimit": 50,
             "driver": "SQLite",
-            "database": "./db.sqlite3",
-            "name": "Rare API"
+            "name": "api",
+            "database": "./db.sqlite3"
         }
     ],
 }
