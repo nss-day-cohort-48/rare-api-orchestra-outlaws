@@ -70,7 +70,13 @@ class PostReactionView(ViewSet):
         return Response(serializer.data)
 
 
+class ReactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reaction
+        fields = ('id', 'label', 'image_url')
+
 class PostReactionSerializer(serializers.ModelSerializer):
+    reaction = ReactionSerializer(many=False)
     class Meta:
         model = PostReaction
         fields = ('id', 'rare_user', 'post', 'reaction')
