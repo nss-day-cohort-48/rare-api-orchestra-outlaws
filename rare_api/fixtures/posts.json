@@ -1,6 +1,6 @@
 [
     {
-        "model": "rare_api.category",
+        "model": "rare_api.post",
         "pk": 1,
         "fields": {
             "user": 1,
@@ -13,7 +13,7 @@
         }
     },
     {
-        "model": "rare_api.category",
+        "model": "rare_api.post",
         "pk": 2,
         "fields": {
             "user": 2,
