@@ -40,13 +40,14 @@ def register_user(request):
     )
 
     rare_user = RareUser.objects.create(
-            user=new_user,
-            bio=request.data['bio'],
-            profile_image_url=request.data['profileImageURL']
+        user=new_user,
+        bio=request.data['bio'],
+        profile_image_url=request.data['profileImageURL']
+    )
 
-    token=Token.objects.create(user=gamer.user)
+    token = Token.objects.create(user=gamer.user)
 
-    data={
+    data = {
         'token': token.key
     }
 
