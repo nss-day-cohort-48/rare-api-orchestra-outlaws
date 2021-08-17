@@ -3,18 +3,18 @@
         "model": "rare_api.comment",
         "pk": 1,
         "fields": {
-            "content": "I agree with all of this. Great Article!",
-            "post_id": 1,
-            "author_id": 1
+            "post": 1,
+            "author": 1,
+            "content": "I agree with all of this. Great Article!"
         }
     },
     {
         "model": "rare_api.comment",
         "pk": 2,
         "fields": {
-            "content": "I don't agree with any of this. Terrible Article!",
-            "post_id": 2,
-            "author_id": 1
+            "post": 2,
+            "author": 1,
+            "content": "I don't agree with any of this. Terrible Article!"
         }
     }
 ]

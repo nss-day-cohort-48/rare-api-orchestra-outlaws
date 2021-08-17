@@ -8,8 +8,8 @@
         {
             "previewLimit": 50,
             "driver": "SQLite",
-            "name": "api",
-            "database": "./db.sqlite3"
+            "name": "newconnection",
+            "database": "db.sqlite3"
         }
     ],
 }
