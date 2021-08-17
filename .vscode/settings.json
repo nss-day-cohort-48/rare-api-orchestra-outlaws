@@ -4,4 +4,12 @@
         "--load-plugins=pylint_django",
         "--django-settings-module=rare-api-orchestra-outlaws.settings",
     ],
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "api",
+            "database": "./db.sqlite3"
+        }
+    ],
 }
