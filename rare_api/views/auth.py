@@ -21,8 +21,6 @@ def login_user(request):
         data = {
             'valid': True,
             'token': token.key,
-            # TODO: remove this -- it's there for compatibility with original client code
-            'id': token.key
         }
         return Response(data)
     else:
