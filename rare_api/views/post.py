@@ -5,6 +5,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
+from django.contrib.auth.models import User
 from rare_api.models import Post, RareUser, Category
 
 class PostView(ViewSet):
@@ -29,7 +30,7 @@ class PostView(ViewSet):
     def update(self, request, pk=None):
         post = Post.objects.get(pk=pk)
         post.user = RareUser.objects.get(user=request.auth.user)
-        post.category = Category.objects.get(pk=request.data["reaction"])
+        post.category = Category.objects.get(pk=request.data["category"])
         post.title = request.data["title"]
         post.publication_date = request.data["publication_date"]
         post.image_url = request.data["image_url"]
@@ -59,12 +60,14 @@ class PostView(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def list(self, request):
-        posts = Post.objects.all()
         
         #filtering posts by user
         user = self.request.query_params.get('user', None)
         if user is not None:
-            posts = posts.filter(user__id=type)
+            posts = Post.objects.filter(user__id=user)
+
+        else:
+            posts = Post.objects.all()
 
         serializer = PostSerializer(
             posts, many=True, context={'request': request}
@@ -72,8 +75,28 @@ class PostView(ViewSet):
         return Response(serializer.data)
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username']
+
+class RareUserSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=False)
+    class Meta:
+        model = RareUser
+        fields = ['id', 'user']
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'label')
+
 class PostSerializer(serializers.ModelSerializer):
+    
+    user = RareUserSerializer(many=False)
+    category = CategorySerializer(many=False)
+
     class Meta:
         model = Post
         fields = ('id', 'user', 'category', 'title', 'publication_date', 'image_url', 'content', 'approved')
-        depth = 1
