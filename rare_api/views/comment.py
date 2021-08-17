@@ -89,3 +89,4 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = '__all__'
         depth = 1
+        
