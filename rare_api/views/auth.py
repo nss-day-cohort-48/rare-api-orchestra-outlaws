@@ -4,6 +4,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from contextlib import suppress
 
 from rare_api.models import RareUser
 
@@ -39,25 +40,18 @@ def register_user(request):
         username=request.data['username'],
         email=request.data['email'],
         password=request.data['password'],
-        first_name=request.date['first_name'],
+        first_name=request.data['first_name'],
         last_name=request.data['last_name']
     )
 
-    # ignore key errors for optional fields
-    with suppress(KeyError):
-        bio = request.data['bio'] or default_bio
-        profile_image_url = request.data['profileImageURL'] or default_profile_image
-
     rare_user = RareUser.objects.create(
         user=new_user,
-        bio=request.data['bio'],
-        profile_image_url=request.data['profileImageURL']
+        bio=default_bio,
+        profile_image_url=default_profile_image
     )
 
-    token = Token.objects.create(user=gamer.user)
+    token = Token.objects.create(user=rare_user.user)
 
-    data = {
-        'token': token.key
-    }
+    data = {'token': token.key}
 
     return Response(data)
