@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
 from django.contrib.auth.models import User
+from rest_framework.decorators import action
 from rare_api.models import Post, RareUser, Category
 
 class PostView(ViewSet):
@@ -43,6 +44,12 @@ class PostView(ViewSet):
     def retrieve(self, request, pk=None):
         try:
             post = Post.objects.get(pk=pk)
+            rare_user = RareUser.objects.get(user=request.auth.user)
+            if rare_user == post.rare_user:
+                post.isMine = True
+            else:
+                post.isMine = False
+
             serializer = PostSerializer(post, context={'request': request})
             return Response(serializer.data)
         except Exception as ex:
@@ -61,13 +68,34 @@ class PostView(ViewSet):
 
     def list(self, request):
         
-        #filtering posts by user
-        rare_user = self.request.query_params.get('rare_user', None)
-        if rare_user is not None:
-            posts = Post.objects.filter(rare_user__id=rare_user)
+        rare_user = RareUser.objects.get(user=request.auth.user)
 
+        #filtering posts by user
+        rare_user_param = self.request.query_params.get('rare_user', None)
+        if rare_user_param is not None:
+            posts = Post.objects.filter(rare_user__id=rare_user_param)
         else:
             posts = Post.objects.all()
+
+        for post in posts:
+            if rare_user == post.rare_user:
+                post.isMine = True
+            else:
+                post.isMine = False
+
+        serializer = PostSerializer(
+            posts, many=True, context={'request': request}
+        )
+        return Response(serializer.data)
+
+    @action(methods=['get'], detail=False)
+    def my_posts(self, request, pk=None):
+
+        rare_user = RareUser.objects.get(user=request.auth.user)
+        posts = Post.objects.filter(rare_user__id=rare_user.id)
+
+        for post in posts:
+                post.isMine = True
 
         serializer = PostSerializer(
             posts, many=True, context={'request': request}
@@ -99,4 +127,4 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'rare_user', 'category', 'title', 'publication_date', 'image_url', 'content', 'approved')
+        fields = ('id', 'rare_user', 'category', 'title', 'publication_date', 'image_url', 'content', 'approved', 'isMine')
