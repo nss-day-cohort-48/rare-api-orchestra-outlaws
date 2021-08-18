@@ -30,6 +30,8 @@ class PostView(ViewSet):
 
     def update(self, request, pk=None):
         post = Post.objects.get(pk=pk)
+        user = User.objects.get(id=request.auth.user_id)
+        
         post.rare_user = RareUser.objects.get(user=request.auth.user)
         post.category = Category.objects.get(pk=request.data["category"])
         post.title = request.data["title"]
