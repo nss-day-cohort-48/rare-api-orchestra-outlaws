@@ -1,0 +1,24 @@
+[
+    {
+        "model": "rare_api.tag",
+        "pk": 1,
+        "fields": {
+            "label": "Current Events"
+        }
+    },
+    {
+        "model": "rare_api.tag",
+        "pk": 2,
+        "fields": {
+            "label": "Criticism"
+        }
+    },
+    {
+        "model": "rare_api.tag",
+        "pk": 3,
+        "fields": {
+            "label": "Technology"
+        }
+    }
+
+]
