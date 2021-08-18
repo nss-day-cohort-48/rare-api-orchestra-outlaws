@@ -8,3 +8,4 @@ python3 ./manage.py loaddata rareusers
 python3 ./manage.py loaddata categories reactions tags
 python3 ./manage.py loaddata posts
 python3 ./manage.py loaddata post_reactions comments
+python3 ./manage.py loaddata post_tags

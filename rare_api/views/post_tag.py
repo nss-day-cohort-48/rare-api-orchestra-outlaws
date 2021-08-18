@@ -48,13 +48,36 @@ class PostTagView(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+    def list(self, request):
+        tag = self.request.query_params.get('tag', None)
+        if tag is not None:
+            post_tags = PostTag.objects.filter(tag__id=tag)
+        else:
+            post = self.request.query_params.get('post', None)
+            if post is not None:
+                post_tags = PostTag.objects.filter(post__id=post)
+            else:
+                post_tags = PostTag.objects.all()
+
+        serializer = PostTagSerializer(
+            post_tags, many=True, context={'request': request}
+        )
+        return Response(serializer.data)
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = '__all__'
 
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = '__all__'
+
 class PostTagSerializer(serializers.ModelSerializer):
-    reaction = TagSerializer(many=False)
+    tag = TagSerializer(many=False)
+    post = PostSerializer(many=False)
     class Meta:
         model = PostTag
         fields = '__all__'
