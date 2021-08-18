@@ -7,5 +7,14 @@
       "bio": "I love to talk about crafting code!",
       "profile_image_url": "https://github.com/stevebrownlee.png"
     }
+  },
+  {
+    "model": "rare_api.rareuser",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "bio": "I love stuff!",
+      "profile_image_url": "https://pictures.com/janedoe.png"
+    }
   }
 ]
