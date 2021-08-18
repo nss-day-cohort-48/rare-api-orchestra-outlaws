@@ -5,6 +5,6 @@ python3 ./manage.py migrate
 python3 ./manage.py loaddata users
 python3 ./manage.py loaddata tokens
 python3 ./manage.py loaddata rareusers
-python3 ./manage.py loaddata categories
-python3 ./manage.py loaddata reactions
-python3 ./manage.py loaddata posts post_reactions
+python3 ./manage.py loaddata categories reactions tags
+python3 ./manage.py loaddata posts
+python3 ./manage.py loaddata post_reactions comments
