@@ -11,3 +11,11 @@ class Post(models.Model):
     image_url = models.CharField(max_length=250)
     content = models.TextField()
     approved = models.BooleanField()
+
+    @property
+    def isMine(self):
+        return self.__isMine
+
+    @isMine.setter
+    def isMine(self, value):
+        self.__isMine = value
