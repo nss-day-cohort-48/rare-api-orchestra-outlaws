@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.deletion import CASCADE
 
 
 class Post(models.Model):
@@ -11,6 +12,8 @@ class Post(models.Model):
     image_url = models.CharField(max_length=250)
     content = models.TextField()
     approved = models.BooleanField()
+    tags = models.ManyToManyField("Tag", through="PostTag")
+    reactions = models.ManyToManyField("Reaction", through="PostReaction")
 
     @property
     def isMine(self):
