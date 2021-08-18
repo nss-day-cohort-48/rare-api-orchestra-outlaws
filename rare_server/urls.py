@@ -26,7 +26,8 @@ from rare_api.views import (
     login_user,
     register_user,
     CommentView,
-    TagView
+    TagView,
+    PostTagView
 )
 
 
@@ -37,6 +38,7 @@ router.register(r'posts', PostView, 'post')
 router.register(r'post_reactions', PostReactionView, 'post_reaction')
 router.register(r'comments', CommentView, 'comment')
 router.register(r'tags', TagView, 'tag')
+router.register(r'post_tags', PostTagView, 'post_tag')
 
 
 
