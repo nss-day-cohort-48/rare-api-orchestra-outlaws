@@ -1,3 +1,5 @@
+from rare_api.views.reaction import ReactionSerializer
+from rare_api.views.post_tag import TagSerializer
 from django.core.exceptions import ValidationError
 from rest_framework import status
 from django.http import HttpResponseServerError
@@ -7,7 +9,7 @@ from rest_framework import serializers
 from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.decorators import action
-from rare_api.models import Post, RareUser, Category
+from rare_api.models import Post, RareUser, Category, Tag, Reaction
 
 class PostView(ViewSet):
     
@@ -120,11 +122,24 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ('id', 'label')
 
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ('id', 'label')
+
+class ReactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reaction
+        fields = ('id', 'label', 'image_url')
+
 class PostSerializer(serializers.ModelSerializer):
     
     rare_user = RareUserSerializer(many=False)
     category = CategorySerializer(many=False)
+    tags = TagSerializer(many=True)
+    reactions = ReactionSerializer(many=True)
 
     class Meta:
         model = Post
-        fields = ('id', 'rare_user', 'category', 'title', 'publication_date', 'image_url', 'content', 'approved', 'isMine')
+        fields = ('id', 'rare_user', 'category', 'title', 'publication_date', 'image_url',
+                    'content', 'approved', 'isMine', 'tags', 'reactions')
