@@ -5,7 +5,8 @@
         "fields": {
             "post": 1,
             "author": 1,
-            "content": "I agree with all of this. Great Article!"
+            "content": "I agree with all of this. Great Article!",
+            "publication_date": "2021-08-18"
         }
     },
     {
@@ -14,7 +15,8 @@
         "fields": {
             "post": 2,
             "author": 1,
-            "content": "I don't agree with any of this. Terrible Article!"
+            "content": "I don't agree with any of this. Terrible Article!",
+            "publication_date": "2021-08-10"
         }
     }
 ]
