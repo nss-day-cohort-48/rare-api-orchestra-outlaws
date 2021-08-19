@@ -9,7 +9,7 @@ from rest_framework import serializers
 from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.decorators import action
-from rare_api.models import Post, RareUser, Category, Tag, Reaction
+from rare_api.models import Post, RareUser, Category, Tag, Reaction, PostTag
 
 class PostView(ViewSet):
     
@@ -25,6 +25,10 @@ class PostView(ViewSet):
 
         try:
             post.save()
+            tags = request.data["tags"]
+            for tag in tags:
+                post.tags.add(tag["id"])
+
             serializer = PostSerializer(post, context={'request': request})
             return Response(serializer.data)
         except ValidationError as ex:
