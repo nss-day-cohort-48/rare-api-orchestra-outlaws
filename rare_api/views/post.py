@@ -36,16 +36,27 @@ class PostView(ViewSet):
 
     def update(self, request, pk=None):
         post = Post.objects.get(pk=pk)
-        post.rare_user = RareUser.objects.get(user=request.auth.user)
-        post.category = Category.objects.get(pk=request.data["category"])
-        post.title = request.data["title"]
-        post.publication_date = request.data["publication_date"]
-        post.image_url = request.data["image_url"]
-        post.content = request.data["content"]
-        post.approved = request.data["approved"]
-        post.save()
+        rare_user = RareUser.objects.get(user=request.auth.user)
+        if rare_user == post.rare_user or rare_user.user.is_staff:            
+            post.category = Category.objects.get(pk=request.data["category"])
+            post.title = request.data["title"]
+            post.publication_date = request.data["publication_date"]
+            post.image_url = request.data["image_url"]
+            post.content = request.data["content"]
+            post.approved = request.data["approved"]
+            posttags = PostTag.objects.filter(post__id=pk)
+            for posttag in posttags:
+                if posttag.post == post:
+                    posttag.delete()
+            new_tags = request.data["tags"]
+            for new_tag in new_tags:
+                post.tags.add(new_tag["id"])
+            post.save()
 
-        return Response({}, status=status.HTTP_204_NO_CONTENT)
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     def retrieve(self, request, pk=None):
         try:
