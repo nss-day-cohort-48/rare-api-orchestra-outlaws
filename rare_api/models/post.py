@@ -1,3 +1,5 @@
+
+from rare_api.models.reaction import Reaction
 from django.db import models
 from django.db.models.deletion import CASCADE
 
@@ -22,3 +24,14 @@ class Post(models.Model):
     @isMine.setter
     def isMine(self, value):
         self.__isMine = value
+
+    @property
+    def reaction_counter(self):
+        reactions = Reaction.objects.filter(post=self).values('id', 'label', 'image_url')
+        reaction_counter = {}
+        for reaction in reactions:
+            if reaction['id'] in reaction_counter:
+                reaction_counter[reaction['id']]['count'] += 1
+            else:
+                reaction_counter[reaction['id']] = {'count': 1, 'image_url': reaction['image_url']}
+        return reaction_counter
