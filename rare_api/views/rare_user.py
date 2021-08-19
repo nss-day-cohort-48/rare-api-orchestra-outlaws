@@ -15,6 +15,15 @@ class RareUserView(ViewSet):
             rare_users, many=True, context={'request': request})
         return Response(serializer.data)
 
+    def retrieve(self, request, pk=None):
+        try:
+            rare_user = RareUser.objects.get(pk=pk)
+            serializer = RareUserSerializer(
+                rare_user, context={'request': request})
+            return Response(serializer.data)
+        except Exception as ex:
+            return HttpResponseServerError(ex)
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
