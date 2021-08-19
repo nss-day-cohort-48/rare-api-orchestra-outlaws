@@ -152,7 +152,6 @@ class PostSerializer(serializers.ModelSerializer):
     rare_user = RareUserSerializer(many=False)
     category = CategorySerializer(many=False)
     tags = TagSerializer(many=True)
-    reactions = ReactionSerializer(many=True)
 
     class Meta:
         model = Post
