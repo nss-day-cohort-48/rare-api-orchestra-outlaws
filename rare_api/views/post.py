@@ -43,6 +43,13 @@ class PostView(ViewSet):
         post.image_url = request.data["image_url"]
         post.content = request.data["content"]
         post.approved = request.data["approved"]
+        posttags = PostTag.objects.filter(post__id=pk)
+        for posttag in posttags:
+            if posttag.post == post:
+                posttag.delete()
+        new_tags = request.data["tags"]
+        for new_tag in new_tags:
+            post.tags.add(new_tag["id"])
         post.save()
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)
