@@ -9,7 +9,7 @@ from rest_framework import serializers
 from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.decorators import action
-from rare_api.models import Post, RareUser, Category, Tag, Reaction, PostTag
+from rare_api.models import Post, RareUser, Category, Tag, Reaction, PostTag, Subscription
 
 
 class PostView(ViewSet):
@@ -119,6 +119,14 @@ class PostView(ViewSet):
             posts, many=True, context={'request': request}
         )
         return Response(serializer.data)
+
+    @action(methods=['get'], detail=False)
+    def subscription(self, request, pk=None):
+
+        auth_user = RareUser.objects.get(user=request.auth.user)
+        print(auth_user)
+        subs = Subscription.objects.get(follower=auth_user)
+        print(subs)
 
 
 class UserSerializer(serializers.ModelSerializer):
