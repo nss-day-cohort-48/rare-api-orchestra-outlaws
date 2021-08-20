@@ -11,10 +11,11 @@ from django.contrib.auth.models import User
 from rest_framework.decorators import action
 from rare_api.models import Post, RareUser, Category, Tag, Reaction, PostTag
 
+
 class PostView(ViewSet):
-    
+
     def create(self, request):
-        post= Post()
+        post = Post()
         post.rare_user = RareUser.objects.get(user=request.auth.user)
         post.category = Category.objects.get(pk=request.data["category"])
         post.title = request.data["title"]
@@ -37,7 +38,7 @@ class PostView(ViewSet):
     def update(self, request, pk=None):
         post = Post.objects.get(pk=pk)
         rare_user = RareUser.objects.get(user=request.auth.user)
-        if rare_user == post.rare_user or rare_user.user.is_staff:            
+        if rare_user == post.rare_user or rare_user.user.is_staff:
             post.category = Category.objects.get(pk=request.data["category"])
             post.title = request.data["title"]
             post.publication_date = request.data["publication_date"]
@@ -71,7 +72,7 @@ class PostView(ViewSet):
             return Response(serializer.data)
         except Exception as ex:
             return HttpResponseServerError(ex)
-    
+
     def destroy(self, request, pk=None):
         try:
             post = Post.objects.get(pk=pk)
@@ -84,10 +85,10 @@ class PostView(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def list(self, request):
-        
+
         rare_user = RareUser.objects.get(user=request.auth.user)
 
-        #filtering posts by user
+        # filtering posts by user
         rare_user_param = self.request.query_params.get('rare_user', None)
         if rare_user_param is not None:
             posts = Post.objects.filter(rare_user__id=rare_user_param)
@@ -112,7 +113,7 @@ class PostView(ViewSet):
         posts = Post.objects.filter(rare_user__id=rare_user.id)
 
         for post in posts:
-                post.isMine = True
+            post.isMine = True
 
         serializer = PostSerializer(
             posts, many=True, context={'request': request}
@@ -125,8 +126,10 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['first_name', 'last_name', 'username']
 
+
 class RareUserSerializer(serializers.ModelSerializer):
     user = UserSerializer(many=False)
+
     class Meta:
         model = RareUser
         fields = ['id', 'user']
@@ -137,18 +140,21 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ('id', 'label')
 
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('id', 'label')
+
 
 class ReactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reaction
         fields = ('id', 'label', 'image_url')
 
+
 class PostSerializer(serializers.ModelSerializer):
-    
+
     rare_user = RareUserSerializer(many=False)
     category = CategorySerializer(many=False)
     tags = TagSerializer(many=True)
@@ -156,4 +162,4 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'rare_user', 'category', 'title', 'publication_date', 'image_url',
-                    'content', 'approved', 'isMine', 'tags',  'reaction_counter')
+                  'content', 'approved', 'isMine', 'tags',  'reaction_counter')
