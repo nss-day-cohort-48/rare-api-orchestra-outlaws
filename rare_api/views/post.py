@@ -121,12 +121,23 @@ class PostView(ViewSet):
         return Response(serializer.data)
 
     @action(methods=['get'], detail=False)
-    def subscription(self, request, pk=None):
+    def subscriptions(self, request, pk=None):
+
+        # TODO handle no subscriptions
 
         auth_user = RareUser.objects.get(user=request.auth.user)
-        print(auth_user)
-        subs = Subscription.objects.get(follower=auth_user)
-        print(subs)
+        subs = Subscription.objects.filter(
+            follower=auth_user).values('follower', 'author')
+
+        posts = Post.objects.none()
+        for sub in subs:
+            # TODO this is not cacheable but works for our purposes
+            #   see: https://stackoverflow.com/questions/29587382/how-to-add-an-model-instance-to-a-django-queryset/43544410
+            posts |= Post.objects.filter(rare_user__id=sub["author"])
+
+        serializer = PostSerializer(
+            posts, many=True, context={'request': request})
+        return Response(serializer.data)
 
 
 class UserSerializer(serializers.ModelSerializer):
