@@ -1,4 +1,3 @@
-
 from rare_api.models.reaction import Reaction
 from django.db import models
 from django.db.models.deletion import CASCADE
@@ -27,11 +26,22 @@ class Post(models.Model):
 
     @property
     def reaction_counter(self):
-        reactions = Reaction.objects.filter(post=self).values('id', 'label', 'image_url')
+        reactions = Reaction.objects.filter(
+            post=self).values('id', 'label', 'image_url')
         reaction_counter = {}
         for reaction in reactions:
             if reaction['id'] in reaction_counter:
                 reaction_counter[reaction['id']]['count'] += 1
             else:
-                reaction_counter[reaction['id']] = {'count': 1, 'image_url': reaction['image_url']}
+                reaction_counter[reaction['id']] = {
+                    'count': 1, 'image_url': reaction['image_url'], 'label': reaction['label']}
+
+        all_reactions = Reaction.objects.all().values('id', 'label', 'image_url')
+        print(all_reactions)
+        for reaction in all_reactions:
+            if reaction['id'] in reaction_counter:
+                pass
+            else:
+                reaction_counter[reaction['id']] = {
+                    'count': 0, 'image_url': reaction['image_url'], 'label': reaction['label']}
         return reaction_counter

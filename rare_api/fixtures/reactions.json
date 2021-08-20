@@ -1,10 +1,18 @@
 [
-    {
-        "model": "rare_api.reaction",
-        "pk": 1,
-        "fields": {
-            "label": "Like",
-            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Facebook_Like_button.svg/1024px-Facebook_Like_button.svg.png"
-        }
+  {
+    "model": "rare_api.reaction",
+    "pk": 1,
+    "fields": {
+      "label": "Like",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Facebook_Like_button.svg/1024px-Facebook_Like_button.svg.png"
     }
+  },
+  {
+    "model": "rare_api.reaction",
+    "pk": 2,
+    "fields": {
+      "label": "Dislike",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Daumen_runter_90.JPG"
+    }
+  }
 ]
